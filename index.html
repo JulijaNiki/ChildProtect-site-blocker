@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ChildProtect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      background-color: #f9f9f9;
+    }
+    img {
+      width: 150px;
+      height: auto;
+    }
+    button {
+      background-color: #5bc0de;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #31b0d5;
+    }
+    .info {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #666;
+      display: none; /* Hidden by default */
+    }
+  </style>
+</head>
+<body>
+<html>
+
+
+<h1>Sponsored</h1>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234567890123456" crossorigin="anonymous"></script>
+
+<!-- Homepage Leaderboard -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-1234567890123456"
+     data-ad-slot="1234567890"></ins>
+
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<br>
+  <img src="hand.png" alt="Stop Hand">
+  <h1>Access Denied</h1> 
+  <p>This site is blocked.</p>
+  <p>Requested URL: <strong id="blocked-url"></strong></p>
+  <p>Category: <strong id="category"></strong></p>
+
+  <div style="margin-top: 20px;">
+    <button type="button" onclick="history.back()">Take me back to safety</button>
+    <button type="button" onclick="window.location.href='/'" style="margin-left: 10px;">Login</button>
+  </div>
+
+  <!-- Toggle Details -->
+  <div style="margin-top: 20px;">
+    <button type="button" onclick="toggleDetails()" id="toggle-button">See details</button>
+  </div>
+
+  <!-- Details Section -->
+  <div class="info" id="info-section">
+<p>
+  The website you are attempting to access has been blocked by ChildProtect. This may be due to its content being classified as inappropriate, unsafe, or restricted according to your current browsing policy. If you believe this page was blocked in error, please contact your administrator or use the login option below to request temporary access.
+</p>
+
+    <p>Date: <strong id="date"></strong></p>
+    <p>Your IP Address: <strong id="ip-address">Loading...</strong></p>
+    <p>Browser: <strong id="browser-info"></strong></p>
+    <P>You cannot visit becuase it uses ChildProtect.</P>
+  </div>
+
+  <script>
+    // Fill requested URL and category
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById("blocked-url").textContent = params.get("url") || window.location.href;
+    document.getElementById("category").textContent = params.get("category") || "Unknown";
+
+    // Display current date
+    document.getElementById("date").textContent = new Date().toLocaleString();
+
+    // Display browser info
+    document.getElementById("browser-info").textContent = navigator.userAgent;
+
+    // Fetch public IP address (requires internet)
+    fetch('https://api.ipify.org?format=json')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("ip-address").textContent = data.ip;
+      })
+      .catch(() => {
+        document.getElementById("ip-address").textContent = "Unavailable";
+      });
+
+    // Toggle details
+    function toggleDetails() {
+      const info = document.getElementById("info-section");
+      const btn = document.getElementById("toggle-button");
+      if (info.style.display === "none") {
+        info.style.display = "block";
+        btn.textContent = "Hide details";
+      } else {
+        info.style.display = "none";
+        btn.textContent = "See details";
+      }
+    }
+  </script>
+</body>
+</html>
