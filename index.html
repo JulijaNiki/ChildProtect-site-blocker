@@ -64,44 +64,58 @@
     <p>Date: <strong id="date"></strong></p>
     <p>Your IP Address: <strong id="ip-address">Loading...</strong></p>
     <p>Browser: <strong id="browser-info"></strong></p>
-    <P>You cannot visit becuase it uses ChildProtect.</P>
+    <P>You cannot visit <spam id="blocked-url2"></spam> becuase it uses ChildProtect.</P>
   </div>
 
-  <script>
-    // Fill requested URL and category
-    const params = new URLSearchParams(window.location.search);
-    document.getElementById("blocked-url").textContent = params.get("url") || window.location.href;
-    document.getElementById("category").textContent = params.get("category") || "Unknown";
-
-    // Display current date
-    document.getElementById("date").textContent = new Date().toLocaleString();
-
-    // Display browser info
-    document.getElementById("browser-info").textContent = navigator.userAgent;
-
-    // Fetch public IP address (requires internet)
-    fetch('https://api.ipify.org?format=json')
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById("ip-address").textContent = data.ip;
-      })
-      .catch(() => {
-        document.getElementById("ip-address").textContent = "Unavailable";
-      });
-
-    // Toggle details
-    function toggleDetails() {
-      const info = document.getElementById("info-section");
-      const btn = document.getElementById("toggle-button");
-      if (info.style.display === "none") {
-        info.style.display = "block";
-        btn.textContent = "Hide details";
-      } else {
-        info.style.display = "none";
-        btn.textContent = "See details";
-      }
+<script>
+  // Helper to extract domain only
+  function getDomain(url) {
+    try {
+      // Remove protocol if exists
+      url = url.replace(/^https?:\/\//, '');
+      // Remove everything after the first slash
+      return url.split('/')[0];
+    } catch {
+      return url;
     }
-  </script>
+  }
+
+  // Fill requested URL and category
+  const params = new URLSearchParams(window.location.search);
+  const rawUrl = params.get("url") || window.location.href;
+  document.getElementById("blocked-url").textContent = getDomain(rawUrl);
+    document.getElementById("blocked-url2").textContent = getDomain(rawUrl);
+  document.getElementById("category").textContent = params.get("category") || "Unknown";
+
+  // Display current date
+  document.getElementById("date").textContent = new Date().toLocaleString();
+
+  // Display browser info
+  document.getElementById("browser-info").textContent = navigator.userAgent;
+
+  // Fetch public IP address (requires internet)
+  fetch('https://api.ipify.org?format=json')
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById("ip-address").textContent = data.ip;
+    })
+    .catch(() => {
+      document.getElementById("ip-address").textContent = "Unavailable";
+    });
+
+  // Toggle details
+  function toggleDetails() {
+    const info = document.getElementById("info-section");
+    const btn = document.getElementById("toggle-button");
+    if (info.style.display === "none") {
+      info.style.display = "block";
+      btn.textContent = "Hide details";
+    } else {
+      info.style.display = "none";
+      btn.textContent = "See details";
+    }
+  }
+</script>
+
 </body>
 </html>
-
